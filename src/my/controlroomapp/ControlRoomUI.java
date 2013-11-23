@@ -2046,11 +2046,12 @@ public class ControlRoomUI extends javax.swing.JFrame {
 
                 if (roamComboBox.getSelectedIndex() == 0) {
                     cosNum = INCommander.COS_ROAM_EN;
+                    /*
                     try {
                         this.INCmd.removeRoamerFromCug(subNum);
                     } catch (SQLException sqle) {
                         System.out.println(sqle.getStackTrace());
-                    }
+                    }*/
                     new MSCRoaming(subNum, true).execute();
                 } else if (roamComboBox.getSelectedIndex() == 1) {
                     cosNum = INCommander.COS_AFRICELL_DEF;
