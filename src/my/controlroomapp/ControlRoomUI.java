@@ -1446,11 +1446,16 @@ public class ControlRoomUI extends javax.swing.JFrame {
         jLabel23.setText("End Date Time:");
 
         SMSDestNumField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                SMSDestNumFieldMousePressed(evt);
+            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 SMSDestNumFieldMouseReleased(evt);
             }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                SMSDestNumFieldMousePressed(evt);
+        });
+        SMSDestNumField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SMSDestNumFieldActionPerformed(evt);
             }
         });
 
@@ -2047,11 +2052,11 @@ public class ControlRoomUI extends javax.swing.JFrame {
                 if (roamComboBox.getSelectedIndex() == 0) {
                     cosNum = INCommander.COS_ROAM_EN;
                     /*
-                    try {
-                        this.INCmd.removeRoamerFromCug(subNum);
-                    } catch (SQLException sqle) {
-                        System.out.println(sqle.getStackTrace());
-                    }*/
+                     try {
+                     this.INCmd.removeRoamerFromCug(subNum);
+                     } catch (SQLException sqle) {
+                     System.out.println(sqle.getStackTrace());
+                     }*/
                     new MSCRoaming(subNum, true).execute();
                 } else if (roamComboBox.getSelectedIndex() == 1) {
                     cosNum = INCommander.COS_AFRICELL_DEF;
@@ -2449,14 +2454,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
                              * 
                              */
                         } else {
-                            simRepTextArea.setText("Invalid Pre-paid Subscriber");
-                            refNumField1.setText("");
-                            refNumField1.setBackground(Color.WHITE);
-                            refNumField2.setText("");
-                            refNumField2.setBackground(Color.WHITE);
-                            refNumField3.setText("");
-                            refNumField3.setBackground(Color.WHITE);
-                            //simRepBalTextField.setText("");
+                            this.simRepTextArea.setText("Not Enough Correct Numbers.");
                         }
                     } else {
                         subNumSimRep = subNum;
@@ -2464,6 +2462,15 @@ public class ControlRoomUI extends javax.swing.JFrame {
                         replaceSimButton.setEnabled(true);
                         newSIMTextField.setEditable(true);
                     }
+                } else {
+                    simRepTextArea.setText("Invalid Pre-paid Subscriber");
+                    refNumField1.setText("");
+                    refNumField1.setBackground(Color.WHITE);
+                    refNumField2.setText("");
+                    refNumField2.setBackground(Color.WHITE);
+                    refNumField3.setText("");
+                    refNumField3.setBackground(Color.WHITE);
+                    //simRepBalTextField.setText("");
                 }
             } catch (SQLException sqle) {
                 sqle.printStackTrace();
@@ -2568,7 +2575,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
                     IMSItextField.setEditable(true);
                     break;
                 case 2: //Create AC
-                    mscParLabel.setText("A4KI");
+                    mscParLabel.setText("KI");
                     mscParLabel.setVisible(true);
                     mscParTextField.setVisible(true);
                     mscParTextField.setEditable(false);
@@ -3052,8 +3059,6 @@ private void viewHistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GE
                 jTable1.setModel(INCmd.getResultSetTableModel((short) 4, subNum));
                 //appLog.setMSISDN(subNum);
                 //appLog.setLogEventID(AppLogger.evoucher);
-            } else {
-                return;
             }
         } catch (SQLException se) {
             System.out.println(se.getMessage());
@@ -3085,9 +3090,7 @@ private void applyChngButton1ActionPerformed(java.awt.event.ActionEvent evt) {//
 
 private void removeServiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeServiceButtonActionPerformed
     // TODO add your handling code here:
-    if (VASList.getLastVisibleIndex() == -1) {
-        return;
-    } else {
+    if (VASList.getLastVisibleIndex() != -1) {
         Object[] vlist = VASList.getSelectedValues();
         VASServices[] s = new VASServices[vlist.length];
         System.arraycopy(vlist, 0, s, 0, vlist.length);
@@ -3136,6 +3139,8 @@ private void removeServiceButtonActionPerformed(java.awt.event.ActionEvent evt) 
                     case SMS:
                         appLog.setLogEventID(AppLogger.SMSExpressUnsub);
                         break;
+                    case KOLAREH:
+                        appLog.setLogEventID(AppLogger.kolarehUnsub);
                     default:
                         break;
                 }
@@ -3200,7 +3205,7 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
                     appLog.setMSISDN(tokSub);
                     appLog.setLogActParam(tokSubDest);
                     appLog.setLogEventID(AppLogger.delCurrTOKNum);
-                    JOptionPane.showMessageDialog(TOKPanel, tokSubDest + " has been canceled from being the TOK number of " + tokSub, "Number Removed", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(TOKPanel, tokSubDest + " has been cancelled from being the TOK number of " + tokSub, "Number Removed", JOptionPane.INFORMATION_MESSAGE);
                     TokNumField.setText("");
                     tokSubDest = null;
                     TokNumField.setEnabled(true);
@@ -3319,6 +3324,7 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
         payBackEVCButton.setEnabled(false);
         normToEVCButton.setEnabled(false);
         retCrdtTransButton.setEnabled(false);
+        normToEVCButton.setEnabled(false);
         EVCSenderField.setText("");
         EVCSenderField.setEditable(true);
         EVCRecipientField.setText("");
@@ -3326,6 +3332,10 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
         EVCRecipientField.setText("");
         EVCAmount1Field.setEditable(true);
         EVCAmount1Field.setText("");
+        EVCAmount2Field.setEditable(true);
+        EVCAmount2Field.setText("");
+        EVCAmount3Field.setEditable(true);
+        EVCAmount3Field.setText("");
         EVCTransactionDateChooser.setDate(null);
         EVCTransactionDateChooser.setEnabled(true);
         jTable3.setModel(new DefaultTableModel());
@@ -3342,11 +3352,11 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
             try {
                 minTransAmnt = Float.parseFloat(this.minAmountField.getText());
             } catch (NumberFormatException nfe) {
-                minTransAmnt = Float.parseFloat("250");
-                this.minAmountField.setText("250");
+                minTransAmnt = Float.parseFloat(minAmtStr);
+                this.minAmountField.setText(minAmtStr);
             }
         } else {
-            minTransAmnt = Float.parseFloat("250");
+            minTransAmnt = Float.parseFloat(minAmtStr);
         }
         float[] transAmts = new float[3];
 
@@ -3913,25 +3923,87 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
 
     private void payBackDlrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payBackDlrButtonActionPerformed
         // TODO add your handling code here:
+        try {
+            if (this.jTable3.getModel().getRowCount() == 1) {
+                short res = this.INCmd.adjustDealerTransfer(this.EVCSenderField.getText(), this.EVCRecipientField.getText(), Float.valueOf((String) this.jTable3.getModel().getValueAt(0, 3)));
+                if (res == 0) {
+                    JOptionPane.showMessageDialog(this.EVCPanel, "Subscriber does not exist in the system.", "Info", 0);
+                } else if (res == 1) {
+                    JOptionPane.showMessageDialog(this.EVCPanel, "Transferred Amount already used. Cannot be reversed", "Info", 0);
+                } else {
+                    JOptionPane.showMessageDialog(this.EVCPanel, "Transaction of " + this.jTable3.getModel().getValueAt(0, 3) + " GMD on " + this.jTable3.getModel().getValueAt(0, 2).toString() + " successfully reversed.", "Reversal Complete", 1);
+
+                    this.appLog.setMSISDN(this.EVCSenderField.getText());
+                    this.appLog.setLogActParam(this.EVCRecipientField.getText());
+                    this.appLog.setLogActInvoice((String) this.jTable3.getModel().getValueAt(0, 3));
+                    this.appLog.setLogActionComments((String) this.jTable3.getModel().getValueAt(0, 2));
+                    this.appLog.setLogEventID((short) 38);
+                    this.jTable3.setModel(new DefaultTableModel());
+                }
+            } else {
+                String msg = "";
+                if (this.rsHandler.getSelectedRowsPos() != null) {
+                    for (Integer r : this.rsHandler.getSelectedRowsPos()) {
+                        short res = this.INCmd.adjustDealerTransfer(this.EVCSenderField.getText(), this.EVCRecipientField.getText(), Float.valueOf((String) this.jTable3.getModel().getValueAt(r.intValue(), 3)));
+                        if (res == 0) {
+                            JOptionPane.showMessageDialog(this.EVCPanel, "Subscriber does not exist in the system.", "Info", 0);
+
+                            break;
+                        }
+                        if (res == 1) {
+                            msg = msg.concat("Transferred amount of " + this.jTable3.getModel().getValueAt(r.intValue(), 3) + " on " + this.jTable3.getModel().getValueAt(r.intValue(), 2) + " already Consumed. Cannot be reversed.\n");
+                        } else {
+                            this.appLog.setMSISDN(this.EVCSenderField.getText());
+                            this.appLog.setLogActParam(this.EVCRecipientField.getText());
+                            this.appLog.setLogActInvoice((String) this.jTable3.getModel().getValueAt(r.intValue(), 3));
+                            this.appLog.setLogActionComments((String) this.jTable3.getModel().getValueAt(r.intValue(), 2));
+                            this.appLog.setLogEventID((short) 38);
+
+                            JOptionPane.showMessageDialog(this.EVCPanel, "Transaction of " + this.jTable3.getModel().getValueAt(r.intValue(), 3) + " GMD on " + this.jTable3.getModel().getValueAt(r.intValue(), 2).toString() + " successfully reversed.", "Reversal Complete", 1);
+                        }
+
+                    }
+
+                    this.jTable3.setModel(new DefaultTableModel());
+                    if (!msg.isEmpty()) {
+                        JOptionPane.showMessageDialog(this.EVCPanel, msg, "Info", 0);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this.EVCPanel, "Please choose which transactions to reverse", "Missing Input", 2);
+                }
+            }
+
+            this.payBackEVCButton.setEnabled(false);
+            this.payBackDlrButton.setEnabled(false);
+            this.EVCSenderField.setEditable(true);
+            this.EVCRecipientField.setEditable(true);
+            this.EVCAmount1Field.setEditable(true);
+            this.EVCAmount2Field.setEditable(true);
+            this.EVCAmount3Field.setEditable(true);
+            this.EVCTransactionDateChooser.setEnabled(true);
+        } catch (SQLException sqle) {
+            JOptionPane.showMessageDialog(this.EVCPanel, "Cannot check transaction - system error.", "DB Error", 0);
+
+            System.out.println(sqle.getMessage());
+        }
     }//GEN-LAST:event_payBackDlrButtonActionPerformed
 
+    private void SMSDestNumFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SMSDestNumFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SMSDestNumFieldActionPerformed
+
     private boolean verifyMSISDN(String num) {
-        return ((num.matches("7[0-9][0-9][0-9][0-9][0-9][0-9]") || num.matches("2[0-2][0-9][0-9][0-9][0-9][0-9]")) && num.length() == 7);
+        return ((num.matches("7[0-9][0-9][0-9][0-9][0-9][0-9]")) || (num.matches("2[0-3][0-9][0-9][0-9][0-9][0-9]"))) && (num.length() == 7);
     }
 
     private boolean verifyPrepaidMSISDN(String msisdn) {
-        return !msisdn.matches("77[5-6][0-9][0-9][0-9][0-9]") || msisdn.matches("77700[0-9][0-9]") || msisdn.matches("77777[0-9][0-9]");
+        return ((!msisdn.matches("7[0-9][0-9][0-9][0-9][0-9][0-9]")) && (!msisdn.matches("2[0-3][0-9][0-9][0-9][0-9][0-9]"))) || ((msisdn.length() == 7) || (((msisdn.matches("1617[0-9][0-9][0-9][0-9][0-9][0-9]")) || (msisdn.matches("1612[0-3][0-9][0-9][0-9][0-9][0-9]"))) && (msisdn.length() == 10)));
     }
 
     private boolean verifyIMSI(String num) {
         return (num.matches("9[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]") && num.length() == 10);
     }
 
-    void registrationComplete() {
-        this.setEnabled(true);
-        newSIMTextField.setEditable(true);
-        replaceSimButton.setEnabled(true);
-    }
 
     /**
      * @param args the command line arguments
@@ -4173,16 +4245,16 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
                     pgwReply = mscCmd.getCmdOutput();
                     break;
                 case 2: //Create AC
-                    String a4ki = new String();
+                    String a4ki = "";
                     if (!mscParTextField.isEditable()) {
                         try {
                             a4ki = INCmd.getA4K(IMSI);
                         } catch (SQLException se) {
-                            return new String("DB Error in Create AC.");
+                            return "DB Error in Create AC.";
                         }
                         if (a4ki == null) {
                             mscParTextField.setEditable(true);
-                            return new String("Enter Authentication key.");
+                            return "Enter Authentication key.";
                         } else {
                             mscParTextField.setText(a4ki);
                         }
@@ -4205,6 +4277,7 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
                         pgwReply = mscCmd.getCmdOutput();
                         mscParTextField.setEditable(false);
                     } else {
+                        mscParTextField.setEditable(true);
                         return new String("Enter 32 digit Authentication key.");
                     }
                     break;
@@ -4262,7 +4335,7 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
                 case 6: //Product Modify
                     int prodInd = prodList.getSelectedIndex();
                     if (prodInd == -1) {
-                        return new String("Select action to apply.");
+                        return "Select action to apply.";
                     } else {
                         if (IMSI != null) {
                             mscCmd.setServedIMSI(IMSI);
@@ -4591,7 +4664,7 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
                     }
                     break;
                 default:
-                    return new String("Enter action to do.");
+                    return "Enter action to do.";
             }
 
             return pgwReply;
@@ -4860,35 +4933,36 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
         boolean cmdSucces;
 
         MSCRoaming(String msisdn, boolean openRoam) {
-            /* 4998 */ this.MSISDN = msisdn;
-            /* 4999 */ this.barRoam = openRoam;
+            this.MSISDN = msisdn;
+            this.barRoam = openRoam;
         }
 
         protected Void doInBackground()
                 throws Exception {
-            /* 5009 */ ControlRoomUI.this.serviceTextArea.setText(new StringBuilder().append("Modifying roaming facility of ").append(this.MSISDN).append(" on the MSC...").toString());
+            serviceTextArea.setText(new StringBuilder().append("Modifying roaming facility of ").append(this.MSISDN).append(" on the MSC...").toString());
 
-            /* 5011 */ ControlRoomUI.this.mscCmd.setServedMSISDN(this.MSISDN);
-            /* 5012 */ ControlRoomUI.this.mscCmd.setBARRAOM(this.barRoam == true ? "NOBAR" : "BROHPLMN");
-            /* 5013 */ ControlRoomUI.this.mscCmd.executeCommand((short) 20);
+            mscCmd.setServedMSISDN(this.MSISDN);
+            mscCmd.setBARRAOM(this.barRoam == true ? "NOBAR" : "BROHPLMN");
+            mscCmd.executeCommand((short) 20);
 
-            /* 5015 */ ControlRoomUI.this.serviceTextArea.append(new StringBuilder().append("Done!\nRoaming facility has been ").append(this.barRoam == true ? "activated" : "deactivated").toString());
-            /* 5016 */ this.cmdSucces = true;
+            serviceTextArea.append(new StringBuilder().append("Done!\nRoaming facility has been ").append(this.barRoam == true ? "activated" : "deactivated").toString());
+            this.cmdSucces = true;
 
-            /* 5018 */ return null;
+            return null;
         }
 
+        @Override
         protected void done() {
             try {
-                /* 5025 */ get();
-                /* 5026 */ if (this.cmdSucces) {
-                    /* 5028 */ ControlRoomUI.this.appLog.setLogActParam(this.barRoam == true ? "Open" : "Block");
-                    /* 5029 */ ControlRoomUI.this.appLog.setLogEventID((short) 18);
-                    /* 5030 */ ControlRoomUI.this.appLog.setLogActParam(this.barRoam == true ? "Enable" : "Disable");
-                    /* 5031 */ ControlRoomUI.this.appLog.setLogEventID((short) 5);
+                get();
+                if (this.cmdSucces) {
+                    appLog.setLogActParam(this.barRoam == true ? "Open" : "Block");
+                    appLog.setLogEventID((short) 18);
+                    appLog.setLogActParam(this.barRoam == true ? "Enable" : "Disable");
+                    appLog.setLogEventID((short) 5);
                 }
             } catch (Exception e) {
-                /* 5034 */ System.out.println(new StringBuilder().append("Exception at done of Roaming Modify Worker ").append(e.getMessage()).toString());
+                System.out.println(new StringBuilder().append("Exception at done of Roaming Modify Worker ").append(e.getMessage()).toString());
             }
         }
     }
@@ -4901,6 +4975,7 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
         ListSelectionHandler() {
         }
 
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             ListSelectionModel lsm = (ListSelectionModel) e.getSource();
 

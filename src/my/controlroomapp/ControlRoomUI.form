@@ -1750,8 +1750,9 @@
             </Component>
             <Component class="javax.swing.JTextField" name="SMSDestNumField">
               <Events>
-                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="SMSDestNumFieldMouseReleased"/>
                 <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="SMSDestNumFieldMousePressed"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="SMSDestNumFieldMouseReleased"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SMSDestNumFieldActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="clearSMSDelivButton">
