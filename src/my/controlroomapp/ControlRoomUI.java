@@ -2048,19 +2048,28 @@ public class ControlRoomUI extends javax.swing.JFrame {
             int validPrd = 0;
 
             if (roamRadioButton.isSelected()) { //Roaming Facility Button Selected
-
+                MSCRoaming mscRoam;
+                
                 if (roamComboBox.getSelectedIndex() == 0) {
-                    cosNum = INCommander.COS_ROAM_EN;
+                    mscRoam = new MSCRoaming(subNum, true);
+                    mscRoam.execute();
+                    if (mscRoam.cmdSucces == true)
+                        cosNum = INCommander.COS_ROAM_EN;
+                    else
+                        cosNum = INCommander.COS_AFRICELL_DEF;
                     /*
                      try {
                      this.INCmd.removeRoamerFromCug(subNum);
                      } catch (SQLException sqle) {
                      System.out.println(sqle.getStackTrace());
                      }*/
-                    new MSCRoaming(subNum, true).execute();
                 } else if (roamComboBox.getSelectedIndex() == 1) {
-                    cosNum = INCommander.COS_AFRICELL_DEF;
-                    new MSCRoaming(subNum, false).execute();
+                    mscRoam = new MSCRoaming(subNum, false);
+                    mscRoam.execute();
+                    if (mscRoam.cmdSucces == true)
+                        cosNum = INCommander.COS_AFRICELL_DEF;
+                    else
+                        cosNum = INCommander.COS_ROAM_EN;
                 } else {
                     cosNum = INCommander.COS_AFRICELL_DEF;
                     JOptionPane.showMessageDialog(VASPanel, "Select Enable/Disable", "Input Error", JOptionPane.INFORMATION_MESSAGE);
@@ -2348,7 +2357,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
     private void dispSubNumFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dispSubNumFieldActionPerformed
 
         String subNum = dispSubNumField.getText();
-        if (verifyMSISDN(subNum)) {
+        if (verifyPrepaidMSISDN(subNum)) {
 
             String[] subInfoStr;
             try {
@@ -4004,7 +4013,6 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
         return (num.matches("9[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]") && num.length() == 10);
     }
 
-
     /**
      * @param args the command line arguments
      */
@@ -4937,13 +4945,25 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
             this.barRoam = openRoam;
         }
 
+        @Override
         protected Void doInBackground()
                 throws Exception {
-            serviceTextArea.setText(new StringBuilder().append("Modifying roaming facility of ").append(this.MSISDN).append(" on the MSC...").toString());
+            serviceTextArea.setText(new StringBuilder().append("Modifying roaming facility of ").append(this.MSISDN).append(" on the HLR...").toString());
 
             mscCmd.setServedMSISDN(this.MSISDN);
             mscCmd.setBARRAOM(this.barRoam == true ? "NOBAR" : "BROHPLMN");
             mscCmd.executeCommand((short) 20);
+            StringTokenizer strToken = new StringTokenizer(mscCmd.getCmdOutput(), "\n");
+            String s = "";
+            while (strToken.hasMoreTokens()) {
+                s = strToken.nextToken();
+                
+                if (s.contains("ERR".subSequence(0, 2))) {
+                    serviceTextArea.append("Operation Unsuccessful due to fail in HLR command!\nCause: \n" + s);
+                    this.cmdSucces = false;
+                    return null;
+                }
+            }
 
             serviceTextArea.append(new StringBuilder().append("Done!\nRoaming facility has been ").append(this.barRoam == true ? "activated" : "deactivated").toString());
             this.cmdSucces = true;
