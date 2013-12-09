@@ -180,6 +180,10 @@ public class ControlRoomUI extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         evoucherRadioButton = new javax.swing.JRadioButton();
         creditTransRadioButton = new javax.swing.JRadioButton();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        LoyaltyStatusField = new javax.swing.JTextField();
+        KolarehCreditField = new javax.swing.JTextField();
         servicePanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         subNumField2 = new javax.swing.JTextField();
@@ -346,11 +350,11 @@ public class ControlRoomUI extends javax.swing.JFrame {
 
         dispSubNumField.setColumns(7);
         dispSubNumField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                dispSubNumFieldMouseReleased(evt);
-            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 dispSubNumFieldMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                dispSubNumFieldMouseReleased(evt);
             }
         });
         dispSubNumField.addActionListener(new java.awt.event.ActionListener() {
@@ -455,6 +459,19 @@ public class ControlRoomUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel27.setText("Kolareh Credit:");
+
+        jLabel34.setText("Kolareh Status:");
+
+        LoyaltyStatusField.setEditable(false);
+
+        KolarehCreditField.setEditable(false);
+        KolarehCreditField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KolarehCreditFieldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout displayPanelLayout = new javax.swing.GroupLayout(displayPanel);
         displayPanel.setLayout(displayPanelLayout);
         displayPanelLayout.setHorizontalGroup(
@@ -473,17 +490,18 @@ public class ControlRoomUI extends javax.swing.JFrame {
                             .addComponent(jLabel20))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(freeSMSTextField)
-                                .addComponent(freeMonTextField)
-                                .addGroup(displayPanelLayout.createSequentialGroup()
-                                    .addComponent(dispSubNumField, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(clearDispButton))
-                                .addComponent(cosTextField))
-                            .addComponent(balTextField)
-                            .addComponent(firstCallTextField)
-                            .addComponent(lastCallTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(displayPanelLayout.createSequentialGroup()
+                                .addComponent(dispSubNumField, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(clearDispButton))
+                            .addGroup(displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(freeSMSTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                                .addComponent(freeMonTextField, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addGroup(displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(lastCallTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                                .addComponent(firstCallTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(balTextField, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(cosTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(49, 49, 49)
                         .addGroup(displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(callsRadioButton)
@@ -496,13 +514,21 @@ public class ControlRoomUI extends javax.swing.JFrame {
                             .addComponent(evoucherRadioButton)
                             .addComponent(creditTransRadioButton))
                         .addGap(212, 212, 212))
-                    .addGroup(displayPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane7)
-                        .addContainerGap())))
+                    .addGroup(displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(displayPanelLayout.createSequentialGroup()
+                            .addGap(22, 22, 22)
+                            .addGroup(displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel27)
+                                .addComponent(jLabel34))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(LoyaltyStatusField, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                                .addComponent(KolarehCreditField))
+                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(displayPanelLayout.createSequentialGroup()
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 944, Short.MAX_VALUE)
+                            .addContainerGap()))))
         );
-
-        displayPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {balTextField, firstCallTextField, freeMonTextField, freeSMSTextField, lastCallTextField});
-
         displayPanelLayout.setVerticalGroup(
             displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(displayPanelLayout.createSequentialGroup()
@@ -547,8 +573,16 @@ public class ControlRoomUI extends javax.swing.JFrame {
                         .addComponent(evoucherRadioButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(creditTransRadioButton)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel34)
+                    .addComponent(LoyaltyStatusField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+                .addGroup(displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel27)
+                    .addComponent(KolarehCreditField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -977,7 +1011,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
                             .addComponent(GPRSSubPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(TOKPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1200,7 +1234,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
                             .addComponent(submitMSCcmd)
                             .addComponent(prodComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(32, 32, 32)))
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1410,7 +1444,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
                 .addGroup(simRepPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(oldIMSItextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(oldIMSILabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(simRepPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newSIMTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(newSIMLabel)
@@ -1545,7 +1579,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(SMSDeliveryProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         AppPane.addTab("SMS Delivery", SMSDeliveryPanel);
@@ -1806,7 +1840,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
                     .addComponent(dealerToDealerRadioButton)
                     .addComponent(ordSubRadioButton)
                     .addComponent(searchEVCButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(EVCPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(payBackEVCButton)
                     .addComponent(normToEVCButton)
@@ -1938,7 +1972,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
                 .addGroup(credAddPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel31)
                     .addComponent(credAddCmntTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(337, Short.MAX_VALUE))
+                .addContainerGap(338, Short.MAX_VALUE))
         );
 
         AppPane.addTab("Credit Addition", credAddPanel);
@@ -1967,7 +2001,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(AppPane, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+                .addComponent(AppPane, javax.swing.GroupLayout.PREFERRED_SIZE, 542, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(exitButton)
                 .addContainerGap())
@@ -2043,35 +2077,58 @@ public class ControlRoomUI extends javax.swing.JFrame {
         if (!verifyMSISDN(subNum)) {
             serviceTextArea.setText(wrgNumMsg);
         } else {
-            short cosNum;
+            int cosNum = (Integer)INCmd.getSubInfo(subNum, "cos_num");
             appLog.setMSISDN(subNum);
             int validPrd = 0;
 
             if (roamRadioButton.isSelected()) { //Roaming Facility Button Selected
-                MSCRoaming mscRoam;
-                
-                if (roamComboBox.getSelectedIndex() == 0) {
-                    mscRoam = new MSCRoaming(subNum, true);
-                    mscRoam.execute();
-                    if (mscRoam.cmdSucces == true)
-                        cosNum = INCommander.COS_ROAM_EN;
-                    else
-                        cosNum = INCommander.COS_AFRICELL_DEF;
-                    /*
-                     try {
-                     this.INCmd.removeRoamerFromCug(subNum);
-                     } catch (SQLException sqle) {
-                     System.out.println(sqle.getStackTrace());
-                     }*/
-                } else if (roamComboBox.getSelectedIndex() == 1) {
-                    mscRoam = new MSCRoaming(subNum, false);
-                    mscRoam.execute();
-                    if (mscRoam.cmdSucces == true)
-                        cosNum = INCommander.COS_AFRICELL_DEF;
-                    else
-                        cosNum = INCommander.COS_ROAM_EN;
-                } else {
+
+                if (roamComboBox.getSelectedIndex() == 0) { //Enable
+                    //serviceTextArea.setText("Activating roaming facility of "+subNum+" on the HLR...");
+                    mscCmd.setServedMSISDN(subNum);
+                    mscCmd.setBARRAOM("NOBAR");
+                    mscCmd.executeCommand(HuaweiHLR.modifyBARROAMISDN);
+
+                    StringTokenizer strToken = new StringTokenizer(mscCmd.getCmdOutput(), "\n");
+                    String s;
+                    while (strToken.hasMoreTokens()) {
+                        s = strToken.nextToken();
+
+                        if (s.contains("ERR".subSequence(0, 2))) {
+                            serviceTextArea.append("\nHLR command failed. Cause:\n"+mscCmd.getCmdOutput());
+                            return;
+                        }
+                    }
+                    serviceTextArea.append(new StringBuilder().append("done!\nRoaming class of service has been ").append("activated").toString());
+                    cosNum = INCommander.COS_ROAM_EN;
+                    appLog.setLogActParam("Open");
+                    appLog.setLogEventID((short) 18);
+                    appLog.setLogActParam("Enable");
+                    appLog.setLogEventID((short) 5);
+
+                } else if (roamComboBox.getSelectedIndex() == 1) { //disable
+                    //serviceTextArea.setText("Deactivating roaming facility of "+subNum+" on the HLR...");
+                    mscCmd.setServedMSISDN(subNum);
+                    mscCmd.setBARRAOM("BROHPLMN");
+                    mscCmd.executeCommand(HuaweiHLR.modifyBARROAMISDN);
+
+                    StringTokenizer strToken = new StringTokenizer(mscCmd.getCmdOutput(), "\n");
+                    String s;
+                    while (strToken.hasMoreTokens()) {
+                        s = strToken.nextToken();
+
+                        if (s.contains("ERR".subSequence(0, 2))) {
+                            serviceTextArea.append("\nHLR command failed. Cause:\n"+mscCmd.getCmdOutput());
+                            return;
+                        }
+                    }
+                    serviceTextArea.append(new StringBuilder().append("done!\nDefault class of service has been ").append("activated").toString());
                     cosNum = INCommander.COS_AFRICELL_DEF;
+                    appLog.setLogActParam("Block");
+                    appLog.setLogEventID((short) 18);
+                    appLog.setLogActParam("Disable");
+                    appLog.setLogEventID((short) 5);
+                } else {
                     JOptionPane.showMessageDialog(VASPanel, "Select Enable/Disable", "Input Error", JOptionPane.INFORMATION_MESSAGE);
                 }
             } else if (langRadioButton.isSelected()) {
@@ -2162,7 +2219,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
                     break;
 
                 case INCommander.COS_ROAM_EN:
-                    msg = "Roaming Facility Enabled for Customer";
+                    msg = "Roaming Class of Service Enabled for Customer";
                     break;
 
                 case INCommander.COS_Valid:
@@ -2177,7 +2234,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
                     break;
 
                 default:
-                    msg = "Customer Settings Changed to Africell Default";
+                    msg = "Customer Settings Remains Unchanged";
                     break;
             }
             try {
@@ -2373,6 +2430,8 @@ public class ControlRoomUI extends javax.swing.JFrame {
                 cosTextField.setText(subInfoStr[3]);
                 firstCallTextField.setText(subInfoStr[4]);
                 lastCallTextField.setText(subInfoStr[5]);
+                LoyaltyStatusField.setText(subInfoStr[6]);
+                KolarehCreditField.setText(subInfoStr[7]);
                 appLog.setMSISDN(subNum);
                 appLog.setLogEventID(AppLogger.DispAccount);
             } else if (subInfoStr.length == 1) {
@@ -4001,6 +4060,10 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
         // TODO add your handling code here:
     }//GEN-LAST:event_SMSDestNumFieldActionPerformed
 
+    private void KolarehCreditFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KolarehCreditFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_KolarehCreditFieldActionPerformed
+
     private boolean verifyMSISDN(String num) {
         return ((num.matches("7[0-9][0-9][0-9][0-9][0-9][0-9]")) || (num.matches("2[0-3][0-9][0-9][0-9][0-9][0-9]"))) && (num.length() == 7);
     }
@@ -4037,6 +4100,8 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
     private com.toedter.calendar.JDateChooser EVCTransactionDateChooser;
     private javax.swing.JPanel GPRSSubPanel;
     private javax.swing.JTextField IMSItextField;
+    private javax.swing.JTextField KolarehCreditField;
+    private javax.swing.JTextField LoyaltyStatusField;
     private javax.swing.JTextArea MSCTextArea;
     private javax.swing.JTextField MSISDNtextField;
     private javax.swing.JButton SMSCheckDelivButton;
@@ -4111,12 +4176,14 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -4938,7 +5005,7 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
 
         String MSISDN;
         boolean barRoam;
-        boolean cmdSucces;
+        boolean cmdSuccess;
 
         MSCRoaming(String msisdn, boolean openRoam) {
             this.MSISDN = msisdn;
@@ -4948,38 +5015,44 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
         @Override
         protected Void doInBackground()
                 throws Exception {
-            serviceTextArea.setText(new StringBuilder().append("Modifying roaming facility of ").append(this.MSISDN).append(" on the HLR...").toString());
 
             mscCmd.setServedMSISDN(this.MSISDN);
             mscCmd.setBARRAOM(this.barRoam == true ? "NOBAR" : "BROHPLMN");
-            mscCmd.executeCommand((short) 20);
+            mscCmd.executeCommand(HuaweiHLR.modifyBARROAMISDN);
+            System.out.println(mscCmd.getCmdOutput());
             StringTokenizer strToken = new StringTokenizer(mscCmd.getCmdOutput(), "\n");
-            String s = "";
+            String s;
             while (strToken.hasMoreTokens()) {
                 s = strToken.nextToken();
                 
                 if (s.contains("ERR".subSequence(0, 2))) {
-                    serviceTextArea.append("Operation Unsuccessful due to fail in HLR command!\nCause: \n" + s);
-                    this.cmdSucces = false;
+                    this.cmdSuccess = false;
                     return null;
                 }
             }
-
-            serviceTextArea.append(new StringBuilder().append("Done!\nRoaming facility has been ").append(this.barRoam == true ? "activated" : "deactivated").toString());
-            this.cmdSucces = true;
-
+            //this.newCOS = this.barRoam == true ? INCommander.COS_ROAM_EN : INCommander.COS_AFRICELL_DEF;
+            this.cmdSuccess = true;
             return null;
         }
 
         @Override
         protected void done() {
+            if (this.barRoam)
+                serviceTextArea.setText("Activating roaming facility of "+this.MSISDN+" on the HLR...");
+            else
+                serviceTextArea.setText("Deactivating roaming facility of "+this.MSISDN+" on the HLR...");
             try {
                 get();
-                if (this.cmdSucces) {
+                if (cmdSuccess) {
+                    serviceTextArea.append(new StringBuilder().append("done!\nRoaming facility has been ").append(this.barRoam == true ? "activated" : "deactivated").toString());
+                    //cosNum = this.barRoam == true ? INCommander.COS_ROAM_EN : INCommander.COS_AFRICELL_DEF;
                     appLog.setLogActParam(this.barRoam == true ? "Open" : "Block");
                     appLog.setLogEventID((short) 18);
                     appLog.setLogActParam(this.barRoam == true ? "Enable" : "Disable");
                     appLog.setLogEventID((short) 5);
+                    System.out.println("Roaming operation complete");
+                } else {
+                    serviceTextArea.append("Operation Unsuccessful due to fail in HLR command!");
                 }
             } catch (Exception e) {
                 System.out.println(new StringBuilder().append("Exception at done of Roaming Modify Worker ").append(e.getMessage()).toString());

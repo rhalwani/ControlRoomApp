@@ -108,7 +108,6 @@ public class INCommander {
                 this.dbc.connectToVAS2DB();
                 System.out.println("Connecting to CRBT DB...");
                 this.dbc.connectToCRBTDB();
-
                 System.out.println("Connecting to Credit Transfer DB...");
                 this.dbc.connectToCreditTransferDB();
                 System.out.println("Connecting to SMSC DB...");
@@ -225,8 +224,24 @@ public class INCommander {
         }
     }
 
+    Object getSubInfo(String subNum, String attribute) {
+
+        try {
+            PreparedStatement callSubInfo = VSDConnection.prepareStatement("select * from dbo.db_subscriber_tbl WHERE subscriber_id = ?");
+            callSubInfo.setString(1, subNum);
+            ResultSet subRS = callSubInfo.executeQuery();
+            if (subRS.next()) {
+                return subRS.getObject(attribute);
+            } else {
+                return null;
+            }
+        } catch (SQLException sqle) {
+            return null;
+        }
+    }
+
     String[] getSubInfo(String subNum) throws SQLException {
-        PreparedStatement subInfoStmt = this.VSDConnection.prepareStatement("SELECT balance, free_money, free_sms_remaining free_sms, cos_name, first_used, time_of_last_call, pin_code FROM dbo.db_sub_view WHERE subscriber_id = ?");
+        PreparedStatement subInfoStmt = this.VSDConnection.prepareStatement("SELECT balance, free_money, free_sms_remaining free_sms, cos_name, first_used, time_of_last_call, loyalty_status, credit_limit FROM dbo.db_sub_view_croom WHERE subscriber_id = ?");
 
         subInfoStmt.setString(1, subNum);
         ResultSet subStatSet = subInfoStmt.executeQuery();
@@ -240,7 +255,8 @@ public class INCommander {
             subInfoStr[(resIndex++)] = subStatSet.getString("cos_name");
             subInfoStr[(resIndex++)] = (subStatSet.getDate("first_used") == null ? "N/A" : subStatSet.getDate("first_used").toString());
             subInfoStr[(resIndex++)] = (subStatSet.getDate("time_of_last_call") == null ? "N/A" : subStatSet.getDate("time_of_last_call").toString());
-            subInfoStr[resIndex] = subStatSet.getString("pin_code");
+            subInfoStr[(resIndex++)] = subStatSet.getString("Loyalty_status");
+            subInfoStr[resIndex] = Float.toString(subStatSet.getFloat("Credit_limit"));
         } else {
             subInfoStr = new String[]{"Not Found"};
         }
@@ -300,26 +316,26 @@ public class INCommander {
             case COS_WOLOF:
                 newCos = COS_WOLOF_TOK;
                 break;
-                case COS_FRENCH:
-                    newCos = COS_FRENCH_TOK;
+            case COS_FRENCH:
+                newCos = COS_FRENCH_TOK;
                 break;
-                case COS_MANDINKA:
-                    newCos = COS_MANDINKA_TOK;
+            case COS_MANDINKA:
+                newCos = COS_MANDINKA_TOK;
                 break;
-                case COS_AFRICELL_DEF:
-                default:
-                    newCos = COS_ENGLISH_TOK;
+            case COS_AFRICELL_DEF:
+            default:
+                newCos = COS_ENGLISH_TOK;
                 break;
         }
 
-CallableStatement tokCallStmt = this.VSDConnection.prepareCall("{call sp_db_add_friend(?, ?, ?)}");
+        CallableStatement tokCallStmt = this.VSDConnection.prepareCall("{call sp_db_add_friend(?, ?, ?)}");
 
-tokCallStmt.setString(1, subNum);
+        tokCallStmt.setString(1, subNum);
         tokCallStmt.setShort(2, (short) 1);
         tokCallStmt.setString(3, tokNum);
         int tokSetReturn = tokCallStmt.executeUpdate();
         if (tokSetReturn == 1) {
-            setNewCOS(subNum, cosNum, newCos, 0);
+            setNewCOS(subNum, newCos, 0);
         }
 
         return tokSetReturn;
@@ -860,7 +876,7 @@ tokCallStmt.setString(1, subNum);
         this.subCreditAdjustStmt.execute();
     }
 
-    void changeService(String subNum, short serviceID, int validPrd) throws SQLException {
+    void changeService(String subNum, int serviceID, int validPrd) throws SQLException {
 
         final PreparedStatement selCOSStmt = VSDConnection.prepareStatement(
                 "SELECT cos_num FROM dbo.db_subscriber_tbl WHERE subscriber_id = ?"
@@ -869,8 +885,8 @@ tokCallStmt.setString(1, subNum);
         ResultSet cosIDSet = selCOSStmt.executeQuery();
 
         if (cosIDSet.next()) {
-            short curCOS = cosIDSet.getShort(1);
-            short updCOS;
+            int curCOS = cosIDSet.getInt(1);
+            int updCOS;
 
             switch (serviceID) {
                 case COS_ENGLISH_TOK:
@@ -925,14 +941,14 @@ tokCallStmt.setString(1, subNum);
                     updCOS = serviceID;
                     break;
             }
-            setNewCOS(subNum, curCOS, updCOS, validPrd);
+            setNewCOS(subNum, updCOS, validPrd);
         }
     }
 
-    private void setNewCOS(String subNum, short oldCos, short newCOS, int validPrd) throws SQLException {
+    private void setNewCOS(String subNum, int newCOS, int validPrd) throws SQLException {
         PreparedStatement updCOSStmt = this.VSDConnection.prepareStatement("UPDATE db_subscriber_tbl set cos_num = ? WHERE subscriber_id = ?");
 
-        updCOSStmt.setShort(1, newCOS);
+        updCOSStmt.setInt(1, newCOS);
         updCOSStmt.setString(2, subNum);
         updCOSStmt.executeUpdate();
 
