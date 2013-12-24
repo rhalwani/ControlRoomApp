@@ -1684,6 +1684,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
         buttonGroupEVC.add(dealerToDealerRadioButton);
         dealerToDealerRadioButton.setText("Dealer Transfer");
 
+        buttonGroupEVC.add(ordSubRadioButton);
         ordSubRadioButton.setText("Credit Transfer");
 
         jLabel32.setText("Amount 2:");
