@@ -4066,11 +4066,11 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
     }//GEN-LAST:event_KolarehCreditFieldActionPerformed
 
     private boolean verifyMSISDN(String num) {
-        return ((num.matches("7[0-9][0-9][0-9][0-9][0-9][0-9]")) || (num.matches("2[0-3][0-9][0-9][0-9][0-9][0-9]"))) && (num.length() == 7);
+        return ((num.matches("7[0-9][0-9][0-9][0-9][0-9][0-9]")) || (num.matches("2[0-6][0-9][0-9][0-9][0-9][0-9]"))) && (num.length() == 7);
     }
 
     private boolean verifyPrepaidMSISDN(String msisdn) {
-        return ((!msisdn.matches("7[0-9][0-9][0-9][0-9][0-9][0-9]")) && (!msisdn.matches("2[0-3][0-9][0-9][0-9][0-9][0-9]"))) || ((msisdn.length() == 7) || (((msisdn.matches("1617[0-9][0-9][0-9][0-9][0-9][0-9]")) || (msisdn.matches("1612[0-3][0-9][0-9][0-9][0-9][0-9]"))) && (msisdn.length() == 10)));
+        return ((!msisdn.matches("7[0-9][0-9][0-9][0-9][0-9][0-9]")) && (!msisdn.matches("2[0-6][0-9][0-9][0-9][0-9][0-9]"))) || ((msisdn.length() == 7) || (((msisdn.matches("1617[0-9][0-9][0-9][0-9][0-9][0-9]")) || (msisdn.matches("1612[0-6][0-9][0-9][0-9][0-9][0-9]"))) && (msisdn.length() == 10)));
     }
 
     private boolean verifyIMSI(String num) {
