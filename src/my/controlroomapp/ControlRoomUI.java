@@ -3541,7 +3541,9 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
                                     this.jTable3.setSelectionModel(listSelModel);
 
                                     this.payBackEVCButton.setEnabled(false);
-                                    this.retCrdtTransButton.setEnabled(true);
+                                    this.normToEVCButton.setEnabled(false);
+                                    this.payBackDlrButton.setEnabled(true);
+                                    this.retCrdtTransButton.setEnabled(false);
                                     this.EVCSenderField.setEditable(false);
                                     this.EVCRecipientField.setEditable(false);
                                     this.EVCAmount1Field.setEditable(false);
@@ -3551,7 +3553,7 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
                                     this.payBackEVCButton.setEnabled(false);
                                     this.retCrdtTransButton.setEnabled(false);
                                     this.normToEVCButton.setEnabled(false);
-                                    this.retCrdtTransButton.setEnabled(false);
+                                    this.payBackDlrButton.setEnabled(false);
                                     JOptionPane.showMessageDialog(this.EVCPanel, "Transaction occured but has already been reveresed", "", 1);
                                 }
 
@@ -3563,7 +3565,7 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
                                 this.payBackEVCButton.setEnabled(false);
                                 this.retCrdtTransButton.setEnabled(false);
                                 this.normToEVCButton.setEnabled(false);
-                                this.retCrdtTransButton.setEnabled(false);
+                                this.payBackDlrButton.setEnabled(false);
                                 JOptionPane.showMessageDialog(this.EVCPanel, "Transaction Not Found", "Input Error", 1);
                             }
                         } catch (SQLException sqle) {
