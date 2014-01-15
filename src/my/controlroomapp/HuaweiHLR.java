@@ -76,6 +76,8 @@ public class HuaweiHLR {
     static final short deactCallFwdNRCISDN = 34;
     static final short actCallFwdNRC = 35;
     static final short actCallFwdNRCISDN = 36;
+    static final short fixMTSMSISDN = 37;
+    static final short fixMTSMS = 38;
 
     public String getCmdOutput() {
         return this.cmdOutput;
@@ -295,15 +297,18 @@ public class HuaweiHLR {
                 break;
             case actData:
                 cliCmd = new StringBuilder().append("MOD NAM:IMSI=\"").append(this.servedIMSI).append("\",NAM=BOTH;\n").append("MOD TPLGPRS:IMSI=\"").append(this.servedIMSI).append("\",PROV=TRUE,TPLID=1;\n").append("MOD ARD:IMSI=\"").append(this.servedIMSI).append("\",PROV=TRUE, UTRANNOTALLOWED=FALSE, GERANNOTALLOWED=FALSE;").toString();
-
-                break;
+               break;
             case actDataISDN:
                 cliCmd = new StringBuilder().append("MOD NAM:ISDN=\"220").append(this.servedMSISDN).append("\",NAM=BOTH;\n").append("MOD TPLGPRS:ISDN=\"220").append(this.servedMSISDN).append("\",PROV=TRUE,TPLID=1;\n").append("MOD ARD:ISDN=\"220").append(this.servedMSISDN).append("\",PROV=TRUE, UTRANNOTALLOWED=FALSE, GERANNOTALLOWED=FALSE;").toString();
-
                 break;
             case deactDataISDN:
                 cliCmd = new StringBuilder().append("MOD TPLGPRS:ISDN=\"220").append(this.servedMSISDN).append("\",PROV=FALSE;\n").append("MOD ARD:ISDN=\"220").append(this.servedMSISDN).append("\",PROV=TRUE, UTRANNOTALLOWED=TRUE, GERANNOTALLOWED=FALSE;").toString();
-
+                break;
+            case fixMTSMSISDN:
+                cliCmd = new StringBuilder().append("MOD TS:ISDN=\"220").append(this.servedMSISDN).append("\",TS21=FALSE;\n").append("MOD TS:ISDN=\"220").append(this.servedMSISDN).append("\",TS21=TRUE;").toString();
+                break;
+            case fixMTSMS:
+                cliCmd = new StringBuilder().append("MOD TS:IMSI=\"60702").append(this.servedIMSI).append("\",TS21=FALSE;\n").append("MOD TS:ISDN=\"60702").append(this.servedIMSI).append("\",TS21=TRUE;").toString();
                 break;
             case SIMReg:
             default:

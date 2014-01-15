@@ -1019,7 +1019,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
 
         commandList.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
         commandList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Display", "Display AC", "Create AC", "Cancel AC", "Create Sub", "Cancel Sub", "Product Modify", "Call Forward" };
+            String[] strings = { "Display", "Display AC", "Create AC", "Cancel AC", "Create Sub", "Cancel Sub", "Product Modify", "Call Forward", "SMS MT Fix" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -2686,6 +2686,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
                 case 5: //Cancel Sub
                 case 6: //Product Modify
                 case 7: //Call Fwd
+                case 8: //SMS MT Fix
                     MSCTextArea.setText("Processing...");
                     MSCCommandSender ms = new MSCCommandSender(choice, msisdn, null);
                     ms.execute();
@@ -2728,6 +2729,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
                 case 5:
                 case 6:
                 case 7:
+                case 8:
                     MSCTextArea.setText("Processing...");
                     MSCCommandSender ms = new MSCCommandSender(commandList.getSelectedIndex(), null, imsi);
                     ms.execute();
@@ -2788,6 +2790,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
                 case 5:
                 case 6:
                 case 7:
+                case 8:
                     MSCTextArea.setText("Processing...");
                     MSCCommandSender ms = new MSCCommandSender(commandList.getSelectedIndex(), null, imsi);
                     ms.execute();
@@ -2817,6 +2820,7 @@ public class ControlRoomUI extends javax.swing.JFrame {
                 case 5:
                 case 6:
                 case 7:
+                case 8:
                     MSCTextArea.setText("Processing...");
                     MSCCommandSender ms = new MSCCommandSender(commandList.getSelectedIndex(), msisdn, null);
                     ms.execute();
@@ -4739,6 +4743,31 @@ private void funRingSubButtonActionPerformed(java.awt.event.ActionEvent evt) {//
                                 }
                             }
                         }
+                    }
+                    break;
+                case 8: //MT SMS Fix
+                    if (IMSI != null) {
+                        MSISDNtextField.setEditable(false);
+                        IMSItextField.setEditable(false);
+                        submitMSCcmd.setEnabled(false);
+                        commandList.setEnabled(false);
+                        clrMSC.setEnabled(false);
+                        appLog.setMSISDN(IMSI);
+                        appLog.setLogEventID(AppLogger.CancSub); //**
+                        mscCmd.setServedIMSI(IMSI);
+                        mscCmd.executeCommand(HuaweiHLR.fixMTSMS);
+                        pgwReply = mscCmd.getCmdOutput();
+                    } else {
+                        MSISDNtextField.setEditable(false);
+                        IMSItextField.setEditable(false);
+                        submitMSCcmd.setEnabled(false);
+                        commandList.setEnabled(false);
+                        clrMSC.setEnabled(false);
+                        appLog.setMSISDN(MSISDN);
+                        appLog.setLogEventID(AppLogger.CancSub);
+                        mscCmd.setServedMSISDN(MSISDN);
+                        mscCmd.executeCommand(HuaweiHLR.fixMTSMSISDN);
+                        pgwReply = mscCmd.getCmdOutput();
                     }
                     break;
                 default:

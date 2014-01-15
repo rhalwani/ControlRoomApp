@@ -28,7 +28,7 @@ public class AppLogger implements Runnable {
             girlTipsUnsub = 29, currencyUnsub = 30, horoscopeUnsub = 31, prayerTimesUnsub = 32,
             sportsNewsUnsub = 33, fbUnsub = 34, freeMoneyAdjust = 35, chkSMSDelivery = 36, chkCrdtTransfer = 37,
             payBackDealer = 38, delCurrTOKNum = 39, creditAdd = 40, dataSubscrComplain = 41, SMSExpressUnsub = 42,
-            CallFwdB = 43, CallFwdNRY = 44, CallFwdNRC = 45, kolarehUnsub = 46;
+            CallFwdB = 43, CallFwdNRY = 44, CallFwdNRC = 45, kolarehUnsub = 46, fixSMSMT = 47;
 
     AppLogger(Connection Ctrl_Conn, Connection CSTMR_Conn, long sessionID) throws IOException, SQLException {
 
